@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Hasil Klasifikasi Anda</h1>
+    <h2>Sehat</h2>
+    {% for entry in results['Sehat'] %}
+    <p><strong>{{ entry[0] }}</strong>: {{ entry[1] }} - {{ entry[2] }}</p>
+    {% endfor %}
+    <h2>Tidak Sehat</h2>
+    {% for entry in results['Tidak Sehat'] %}
+    <p><strong>{{ entry[0] }}</strong>: {{ entry[1] }} - {{ entry[2] }}</p>
+    {% endfor %}
+</div>
+{% endblock %}

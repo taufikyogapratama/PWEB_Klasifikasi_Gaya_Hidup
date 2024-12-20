@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Masukkan Data Gaya Hidup Anda</h1>
+    <form method="post" action="/input_lifestyle">
+        {% for question in questions %}
+        <div class="mb-3">
+            <label for="question_{{ question.ID_Pertanyaan }}" class="form-label">{{ question.Teks_Pertanyaan }}</label>
+            <input type="number" class="form-control" id="question_{{ question.ID_Pertanyaan }}" name="answers[{{ question.ID_Pertanyaan }}]" required>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

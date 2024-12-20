@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 15, 2024 at 05:02 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost:3306
+-- Generation Time: Dec 20, 2024 at 02:32 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,22 +24,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Aturan`
+-- Table structure for table `aturan`
 --
 
-CREATE TABLE `Aturan` (
-  `Id_Aturan` int(11) NOT NULL,
-  `ID_Pertanyaan` int(11) NOT NULL,
-  `Kondisi` varchar(50) NOT NULL,
-  `Hasil_Klasifikasi` varchar(50) NOT NULL,
-  `Nasihat` varchar(255) DEFAULT NULL
+CREATE TABLE `aturan` (
+  `Id_Aturan` int NOT NULL,
+  `ID_Pertanyaan` int NOT NULL,
+  `Kondisi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `Hasil_Klasifikasi` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `Nasihat` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Aturan`
+-- Dumping data for table `aturan`
 --
 
-INSERT INTO `Aturan` (`Id_Aturan`, `ID_Pertanyaan`, `Kondisi`, `Hasil_Klasifikasi`, `Nasihat`) VALUES
+INSERT INTO `aturan` (`Id_Aturan`, `ID_Pertanyaan`, `Kondisi`, `Hasil_Klasifikasi`, `Nasihat`) VALUES
 (53, 4, '>= 3', 'Sehat', 'Teruskan kebiasaan berolahraga Anda!'),
 (54, 4, '< 3', 'Tidak Sehat', 'Cobalah untuk berolahraga lebih sering, minimal 3 kali seminggu.'),
 (55, 5, '>= 7', 'Sehat', 'Tidur cukup sangat penting. Lanjutkan kebiasaan tidur Anda!'),
@@ -54,20 +54,47 @@ INSERT INTO `Aturan` (`Id_Aturan`, `ID_Pertanyaan`, `Kondisi`, `Hasil_Klasifikas
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Pertanyaan`
+-- Table structure for table `hasil`
 --
 
-CREATE TABLE `Pertanyaan` (
-  `ID_Pertanyaan` int(11) NOT NULL,
-  `Teks_Pertanyaan` varchar(255) NOT NULL,
-  `Kategori` varchar(50) NOT NULL
+CREATE TABLE `hasil` (
+  `ID_Hasil` int NOT NULL,
+  `Nama` varchar(100) NOT NULL,
+  `Umur` int NOT NULL,
+  `Berat_Badan` float NOT NULL,
+  `Tinggi_Badan` float NOT NULL,
+  `Olahraga` varchar(50) DEFAULT NULL,
+  `Tidur` varchar(50) DEFAULT NULL,
+  `Stres` varchar(50) DEFAULT NULL,
+  `Makanan` varchar(50) DEFAULT NULL,
+  `Hidrasi` varchar(50) DEFAULT NULL,
+  `Timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `hasil`
+--
+
+INSERT INTO `hasil` (`ID_Hasil`, `Nama`, `Umur`, `Berat_Badan`, `Tinggi_Badan`, `Olahraga`, `Tidur`, `Stres`, `Makanan`, `Hidrasi`, `Timestamp`) VALUES
+(1, 'zilong', 18, 59, 170, 'Sehat', 'Sehat', 'Tidak Sehat', 'Sehat', 'Sehat', '2024-12-20 13:52:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pertanyaan`
+--
+
+CREATE TABLE `pertanyaan` (
+  `ID_Pertanyaan` int NOT NULL,
+  `Teks_Pertanyaan` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `Kategori` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Pertanyaan`
+-- Dumping data for table `pertanyaan`
 --
 
-INSERT INTO `Pertanyaan` (`ID_Pertanyaan`, `Teks_Pertanyaan`, `Kategori`) VALUES
+INSERT INTO `pertanyaan` (`ID_Pertanyaan`, `Teks_Pertanyaan`, `Kategori`) VALUES
 (4, 'Seberapa sering Anda berolahraga dalam seminggu?', 'Olahraga'),
 (5, 'Berapa jam rata-rata Anda tidur per hari?', 'Tidur'),
 (6, 'Seberapa sering Anda merasa stres dalam sebulan?', 'Stres'),
@@ -79,16 +106,22 @@ INSERT INTO `Pertanyaan` (`ID_Pertanyaan`, `Teks_Pertanyaan`, `Kategori`) VALUES
 --
 
 --
--- Indexes for table `Aturan`
+-- Indexes for table `aturan`
 --
-ALTER TABLE `Aturan`
+ALTER TABLE `aturan`
   ADD PRIMARY KEY (`Id_Aturan`),
   ADD KEY `FK_Aturan_Pertanyaan` (`ID_Pertanyaan`);
 
 --
--- Indexes for table `Pertanyaan`
+-- Indexes for table `hasil`
 --
-ALTER TABLE `Pertanyaan`
+ALTER TABLE `hasil`
+  ADD PRIMARY KEY (`ID_Hasil`);
+
+--
+-- Indexes for table `pertanyaan`
+--
+ALTER TABLE `pertanyaan`
   ADD PRIMARY KEY (`ID_Pertanyaan`);
 
 --
@@ -96,26 +129,32 @@ ALTER TABLE `Pertanyaan`
 --
 
 --
--- AUTO_INCREMENT for table `Aturan`
+-- AUTO_INCREMENT for table `aturan`
 --
-ALTER TABLE `Aturan`
-  MODIFY `Id_Aturan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+ALTER TABLE `aturan`
+  MODIFY `Id_Aturan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
--- AUTO_INCREMENT for table `Pertanyaan`
+-- AUTO_INCREMENT for table `hasil`
 --
-ALTER TABLE `Pertanyaan`
-  MODIFY `ID_Pertanyaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+ALTER TABLE `hasil`
+  MODIFY `ID_Hasil` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `pertanyaan`
+--
+ALTER TABLE `pertanyaan`
+  MODIFY `ID_Pertanyaan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `Aturan`
+-- Constraints for table `aturan`
 --
-ALTER TABLE `Aturan`
-  ADD CONSTRAINT `FK_Aturan_Pertanyaan` FOREIGN KEY (`ID_Pertanyaan`) REFERENCES `Pertanyaan` (`ID_Pertanyaan`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `aturan`
+  ADD CONSTRAINT `FK_Aturan_Pertanyaan` FOREIGN KEY (`ID_Pertanyaan`) REFERENCES `pertanyaan` (`ID_Pertanyaan`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

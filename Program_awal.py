@@ -20,7 +20,8 @@ def get_questions(cursor):
 def classify_answers(cursor, answers):
     results = {'Sehat': [], 'Tidak Sehat': []}
     categories = {'Sehat': [], 'Tidak Sehat': []}
-    
+    final_results = {}
+
     for id_pertanyaan, jawaban in answers.items():
         cursor.execute("""
             SELECT Kondisi, Hasil_Klasifikasi, Nasihat, Kategori 
@@ -39,7 +40,26 @@ def classify_answers(cursor, answers):
             condition, result_class, advice, category = result
             results[result_class].append((category, result_class, advice))
             categories[result_class].append(category)
-    return results, categories
+            final_results[category] = result_class  # Simpan hasil klasifikasi per kategori
+    
+    return results, categories, final_results
+
+def insert_result_to_database(cursor, conn, name, age, weight, height, classification):
+    cursor.execute("""
+        INSERT INTO Hasil (Nama, Umur, Berat_Badan, Tinggi_Badan, Olahraga, Tidur, Stres, Makanan, Hidrasi)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """, (
+        name,
+        age,
+        weight,
+        height,
+        classification.get("Olahraga", None),
+        classification.get("Tidur", None),
+        classification.get("Stres", None),
+        classification.get("Makanan", None),
+        classification.get("Hidrasi", None)
+    ))
+    conn.commit()
 
 def main():
     conn = connect_to_database()
@@ -47,15 +67,21 @@ def main():
         return
     cursor = conn.cursor()
 
+    print("Masukkan data identitas Anda:")
+    name = input("Nama: ")
+    age = int(input("Umur: "))
+    weight = float(input("Berat badan (kg): "))
+    height = float(input("Tinggi badan (cm): "))
+
     questions = get_questions(cursor)
-    print("Jawab pertanyaan berikut:")
+    print("\nJawab pertanyaan berikut:")
     answers = {}
 
     for id_pertanyaan, kategori, teks_pertanyaan in questions:
         jawaban = input(f"{teks_pertanyaan} (jawab angka): ")
         answers[id_pertanyaan] = int(jawaban)
 
-    classifications, categories = classify_answers(cursor, answers)
+    classifications, categories, final_results = classify_answers(cursor, answers)
 
     print("\nHasil Klasifikasi Gaya Hidup Anda:")
     sehat = "Sehat" in categories and len(categories["Sehat"]) > 0
@@ -77,9 +103,12 @@ def main():
         tidak_sehat_categories = ', '.join(categories["Tidak Sehat"])
         print(f"\nPola {tidak_sehat_categories} perlu perbaikan, perhatikan nasihat yang diberikan untuk meningkatkan kesehatan Anda.")
 
+    # Simpan hasil klasifikasi ke database
+    insert_result_to_database(cursor, conn, name, age, weight, height, final_results)
+    print("\nHasil klasifikasi Anda telah disimpan ke database.")
+
     cursor.close()
     conn.close()
 
 if __name__ == "__main__":
     main()
-

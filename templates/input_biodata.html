@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Masukkan Biodata Anda</h1>
+    <form method="post" action="/save_biodata">
+        <div class="mb-3">
+            <label for="nama" class="form-label">Nama:</label>
+            <input type="text" class="form-control" id="nama" name="nama" required>
+        </div>
+        <div class="mb-3">
+            <label for="umur" class="form-label">Umur:</label>
+            <input type="number" class="form-control" id="umur" name="umur" required>
+        </div>
+        <div class="mb-3">
+            <label for="berat_badan" class="form-label">Berat Badan (kg):</label>
+            <input type="number" step="0.1" class="form-control" id="berat_badan" name="berat_badan" required>
+        </div>
+        <div class="mb-3">
+            <label for="tinggi_badan" class="form-label">Tinggi Badan (cm):</label>
+            <input type="number" step="0.1" class="form-control" id="tinggi_badan" name="tinggi_badan" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan Biodata</button>
+    </form>
+</div>
+{% endblock %}
