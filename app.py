@@ -1,118 +1,181 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-import mysql.connector
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
 
-def connect_to_database():
-    try:
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="klasifikasi"
-        )
-        return conn
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-        return None
+app.config['MYSQL_HOST'] = "localhost"
+app.config['MYSQL_USER'] = "root"
+app.config['MYSQL_PASSWORD'] = ""
+app.config['MYSQL_DB'] = "klasifikasi"
+app.config['SECRET_KEY'] = 'kunci_rahasia'
 
-def get_questions(cursor):
-    cursor.execute("SELECT ID_Pertanyaan, Kategori, Teks_Pertanyaan FROM pertanyaan")
-    return cursor.fetchall()
+mysql = MySQL(app)
 
-def classify_answers(cursor, answers):
-    results = {'Sehat': [], 'Tidak Sehat': []}
-    categories = {'Sehat': [], 'Tidak Sehat': []}
+@app.route("/")
+def masuk():
+    return render_template("masuk.html")
 
-    for id_pertanyaan, jawaban in answers.items():
-        cursor.execute(
-            """
-            SELECT Kondisi, Hasil_Klasifikasi, Nasihat, Kategori 
-            FROM aturan 
-            JOIN pertanyaan ON aturan.ID_Pertanyaan = pertanyaan.ID_Pertanyaan 
-            WHERE pertanyaan.ID_Pertanyaan = %s AND (
-                (Kondisi LIKE '>= %' AND %s >= CAST(SUBSTRING(Kondisi, 4) AS SIGNED)) 
-                OR (Kondisi LIKE '<= %' AND %s <= CAST(SUBSTRING(Kondisi, 4) AS SIGNED)) 
-                OR (Kondisi LIKE '> %' AND %s > CAST(SUBSTRING(Kondisi, 3) AS SIGNED)) 
-                OR (Kondisi LIKE '< %' AND %s < CAST(SUBSTRING(Kondisi, 3) AS SIGNED))
-            )
-            """,
-            (id_pertanyaan, jawaban, jawaban, jawaban, jawaban)
-        )
+@app.route("/user_biodata")
+def user_biodata():
+    return render_template("user_biodata.html")
 
-        result = cursor.fetchone()
-        if result:
-            condition, result_class, advice, category = result
-            results[result_class].append((category, result_class, advice))
-            categories[result_class].append(category)
+@app.route("/save_user_biodata", methods=['GET', 'POST'])
+def save_user_biodata():
+    if request.method == "POST":
+        nama = request.form['nama']
+        umur = request.form['umur']
+        berat_badan = request.form['berat_badan']
+        tinggi_badan = request.form['tinggi_badan']
 
-    return results, categories
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO user (nama_user, umur, berat_badan, tinggi_badan) VALUES (%s, %s, %s, %s)", (nama, umur, berat_badan, tinggi_badan))
+        mysql.connection.commit()
+        user_id = cur.lastrowid
+        session['user_id'] = user_id
+        return redirect(url_for("user_lifestyle"))
 
-@app.route("/input_biodata")
-def input_biodata():
-    return render_template("input_biodata.html")
+@app.route("/user_lifestyle")
+def user_lifestyle():
+    return render_template("user_lifestyle.html")
 
-@app.route("/save_biodata", methods=["POST"])
-def save_biodata():
-    nama = request.form.get("nama")
-    umur = request.form.get("umur")
-    berat_badan = request.form.get("berat_badan")
-    tinggi_badan = request.form.get("tinggi_badan")
+@app.route("/save_user_lifestyle", methods=['GET', 'POST'])
+def save_user_lifestyle():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for("masuk"))
     
-    session['biodata'] = {
-        'nama': nama,
-        'umur': int(umur),
-        'berat_badan': float(berat_badan),
-        'tinggi_badan': float(tinggi_badan),
-    }
+    if request.method == "POST":
+        olahraga = int(request.form['olahraga'])
+        tidur = int(request.form['tidur'])
+        stres = int(request.form['stres'])
+        makanan = int(request.form['makanan'])
+        hidrasi = int(request.form['hidrasi'])
+
+        kategori_olahraga = ""
+        kategori_tidur = ""
+        kategori_stres = ""
+        kategori_makanan = ""
+        kategori_hidrasi = ""
+
+        if olahraga >= 3:
+            kategori_olahraga = "Bagus"
+        else:
+            kategori_olahraga = "Kurang"
+
+        if tidur >= 7:
+            kategori_tidur = "Bagus"
+        else:
+            kategori_tidur = "Kurang"
+
+        if stres >= 7:
+            kategori_stres = "Buruk"
+        else:
+            kategori_stres = "Bagus"
+
+        if makanan >= 7:
+            kategori_makanan = "Buruk"
+        else:
+            kategori_makanan = "Bagus"
+
+        if hidrasi >= 8:
+            kategori_hidrasi = "Bagus"
+        else:
+            kategori_hidrasi = "Kurang"
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO hasil (id_user, olahraga, tidur, stres, makanan, hidrasi) VALUES (%s, %s, %s, %s, %s, %s)", (user_id, kategori_olahraga, kategori_tidur, kategori_stres, kategori_makanan, kategori_hidrasi))
+        mysql.connection.commit()
+        return redirect(url_for("hasil"))
+
+@app.route("/hasil")
+def hasil():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for("masuk"))
+    cur = mysql.connection.cursor()
     
-    return redirect("/input_lifestyle")
+    cur.execute("SELECT olahraga, tidur, stres, makanan, hidrasi FROM hasil WHERE id_user = %s", (user_id,))
 
-@app.route('/input_lifestyle', methods=['GET', 'POST'])
-def input_lifestyle():
-    conn = connect_to_database()
-    if conn is None:
-        return "Database connection error", 500
-    cursor = conn.cursor()
+    data = cur.fetchone()
+    cur.close()
+    session.pop('user_id', None)
 
-    questions = get_questions(cursor)
-    
-    if request.method == 'POST':
-        answers = {}
-        for question in questions:
-            id_pertanyaan = question[0]
-            answers[id_pertanyaan] = int(request.form.get(str(id_pertanyaan)))
+    if data:
+        kesimpulan = []
+        
+        if data[0] == 'Bagus':
+            kesimpulan.append("Aktivitas olahraga Anda sudah bagus")
+        else:
+            kesimpulan.append("Aktivitas olahraga Anda perlu ditingkatkan")
+        
 
-        classifications, categories = classify_answers(cursor, answers)
+        if data[1] == 'Bagus':
+            kesimpulan.append("Waktu tidur Anda sudah cukup")
+        else:
+            kesimpulan.append("Waktu tidur Anda perlu ditingkatkan")
+        
 
-        cursor.execute(
-            "INSERT INTO hasil (Nama, Umur, Berat_Badan, Tinggi_Badan, Olahraga, Tidur, Stres, Makanan, Hidrasi) "
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-            (
-                session['nama'], session['umur'], session['berat_badan'], session['tinggi_badan'],
-                categories['Sehat'][0] if 'Sehat' in categories and len(categories['Sehat']) > 0 else 'Tidak Sehat',
-                categories['Tidak Sehat'][0] if 'Tidak Sehat' in categories and len(categories['Tidak Sehat']) > 0 else 'Sehat',
-                None, None, None
-            )
-        )
-        conn.commit()
+        if data[2] == 'Buruk':
+            kesimpulan.append("Stres Anda perlu diperbaiki")
+        else:
+        
+            kesimpulan.append("Stres Anda sudah terkendali")
+        
+        if data[3] == 'Buruk':
+            kesimpulan.append("Jenis makanan Anda perlu diperbaiki")
+        else:
+            kesimpulan.append("Jenis makanan Anda sudah bagus")
+        
 
-        return render_template(
-            'hasil.html', classifications=classifications, categories=categories
-        )
+        if data[4] == 'Bagus':
+            kesimpulan.append("Kebutuhan cairan Anda sudah tercukupi dengan baik")
+        else:
+            kesimpulan.append("Kebutuhan cairan Anda perlu diperbaiki")
 
-    return render_template('input_lifestyle.html', questions=questions)
+        hasil_kesimpulan = ", ".join(kesimpulan)
+        
+        return render_template("hasil.html", hasil_kesimpulan=hasil_kesimpulan)
+    else:
+        return "Data tidak ditemukan", 404
 
-@app.route('/admin')
+@app.route("/validasi_admin")
+def validasi_admin():
+    return render_template("validasi_admin.html")
+
+@app.route("/cek_validasi_admin", methods=['GET', 'POST'])
+def cek_validasi_admin():
+    if request.method == "POST":
+        nama = request.form['nama']
+        password = request.form['password']
+
+        if nama == "admin lelah" and password == "tugas banyak":
+            return redirect(url_for("admin"))
+        else:
+            return redirect(url_for("masuk"))
+
+
+@app.route("/admin")
 def admin():
-    conn = connect_to_database()
-    if conn is None:
-        return "Database connection error", 500
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM hasil")
-    results = cursor.fetchall()
-    return render_template('admin.html', results=results)
+    
+    cur = mysql.connection.cursor()
+
+    
+    cur.execute("""
+        SELECT u.nama_user, u.umur, u.berat_badan, u.tinggi_badan, 
+               h.olahraga, h.tidur, h.stres, h.makanan, h.hidrasi
+        FROM hasil h
+        JOIN user u ON h.id_user = u.id_user;
+    """)
+
+    
+    data = cur.fetchall()
+
+    
+    cur.close()
+
+    
+    return render_template("admin.html", data=data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Tolong jawab pertanyaan pertanyaan di bawah ini</h1>
+<form method="POST" action="save_user_lifestyle">
+    <label for="olahraga">Seberapa sering Anda berolahraga dalam seminggu?</label><br>
+    <input type="number" id="olahraga" name="olahraga" required><br>
+    <label for="tidur">Berapa jam rata-rata Anda tidur per hari?</label><br>
+    <input type="number" id="tidur" name="tidur" required><br>
+    <label for="stres">Seberapa sering Anda merasa stres dalam sebulan?</label><br>
+    <input type="number" id="stres" name="stres" required><br>
+    <label for="makanan">Seberapa sering Anda makan makanan cepat saji dalam seminggu?</label><br>
+    <input type="number" id="makanan" name="makanan" required><br>
+    <label for="hidrasi">Berapa banyak air yang Anda minum dalam sehari?</label><br>
+    <input type="number" id="hidrasi" name="hidrasi" required><br>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

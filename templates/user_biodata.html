@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Masukkan Data Diri Anda</h1>
+<form method="POST" action="/save_user_biodata">
+    <label for="nama">Nama:</label><br>
+    <input type="text" id="nama" name="nama" required><br>
+    <label for="umur">Umur:</label><br>
+    <input type="number" id="umur" name="umur" required><br>
+    <label for="berat_badan">Berat badan:</label><br>
+    <input type="number" id="berat_badan" name="berat_badan" required><br>
+    <label for="tinggi_badan">Tinggi badan:</label><br>
+    <input type="number" id="tinggi_badan" name="tinggi_badan" required><br>
+    <input type="submit" value="Lanjut">
+</form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Mohon isi nama dan password admin</h1>
+<form action="cek_validasi_admin" method="POST">
+    <label for="nama">Nama:</label><br>
+    <input type="nama" id="nama" name="nama" required><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br>
+    <input type="submit" value="Masuk">
+</form>
+{% endblock %}
