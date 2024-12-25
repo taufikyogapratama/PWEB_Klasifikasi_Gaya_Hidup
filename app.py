@@ -176,6 +176,22 @@ def admin():
     
     return render_template("admin.html", data=data)
 
+@app.route("/hapus_semua_data", methods=["POST"])
+def hapus_semua_data():
+    cur = mysql.connection.cursor()
+    try:
+        cur.execute("DELETE FROM hasil")
+        
+        cur.execute("DELETE FROM user")
+        
+        mysql.connection.commit()
+    except Exception as e:
+        mysql.connection.rollback()
+        return f"Terjadi kesalahan: {e}", 500
+    finally:
+        cur.close()
+
+    return redirect(url_for("admin"))
 
 if __name__ == '__main__':
     app.run(debug=True)

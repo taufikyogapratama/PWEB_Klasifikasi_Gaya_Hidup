@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Masuk Sebagai?</h1>
-<button><a href="/validasi_admin">Admin</a></button>
-<button><a href="/user_biodata">User</a></button>
+<div class="masuk">
+    <h1 class="h1">Masuk Sebagai</h1>
+    <div class="btnmasuk">
+        <button class="admin" style="margin-right: 70px;" onclick="window.location.href='/validasi_admin'">
+            Admin
+        </button>
+        <button class="user" onclick="window.location.href='/user_biodata'">
+            User
+        </button>
+    </div>
+</div>
 {% endblock %}
+

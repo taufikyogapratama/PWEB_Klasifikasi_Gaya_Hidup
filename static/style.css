@@ -1,0 +1,327 @@
+/* masuk */
+
+.masuk{
+    text-align: center;
+    padding: 50px;
+    margin-top: 15%;
+}
+
+.h1{
+    font-family: Arial, sans-serif; 
+    color:black;
+}
+
+.btnmasuk{
+    margin-top: 20px;
+}
+
+
+.admin{
+    padding: 10px 20px;
+    margin: 20px;
+    color: white;
+    border: none;
+    background-color: blue;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+
+.user{
+    width: 90px;
+    padding: 10px 20px;
+    margin: 20px;
+    background-color: #28A745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: white; 
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+.admin:hover{
+    background-color: rgb(2, 173, 252);
+    color: gainsboro;
+}
+.user:hover{
+    background-color: #4CAF50;
+    color: gainsboro;
+}
+
+/* validasi_admin */
+
+.btn-kembali{
+    position: absolute;
+    padding: 10px 20px;
+    margin: 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: white; 
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+.btn-hapus{
+    padding: 7px 17px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: white; 
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+.tabel {
+    border: 1px solid #ccc; 
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 800px;
+}
+
+.h1v{
+    text-align: center; 
+    margin-bottom: 20px;
+    color: black;
+}
+
+.btn.nv{
+    width: 100%; 
+    padding: 8px; 
+    border-radius: 4px; 
+    border: 1px solid #ccc;
+}
+
+.namav{
+    color: black;
+    font-size: medium;
+}
+
+.pav{
+    color: black;
+    font-size: medium;
+}
+
+/* admin */
+
+.table-custom th {
+    background-color: wheat !important; 
+    color: black !important; 
+}
+
+.table-custom tbody tr:nth-child(even) {
+    background-color: rgb(167, 213, 250); 
+}
+
+.table-custom tbody tr:nth-child(odd) {
+    background-color: rgb(74, 166, 252); 
+}
+
+.table-custom tbody tr:hover {
+    background-color: rgb(56, 238, 153) !important; 
+}
+
+.table-custom td, .table-custom th {
+    color: black; 
+}
+
+.table-custom {
+    border: 3px solid gray !important; 
+    border-collapse: collapse; 
+}
+
+.table-custom th, .table-custom td {
+    border: 2px solid gray !important; 
+}
+
+/* biodata user*/
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    background-color: transparent;
+}
+
+h1 {
+    color: black;
+    font-family: Arial, sans-serif;
+}
+
+form {
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
+}
+
+label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: black;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type="submit"]:hover {
+    background-color: #63d369;
+}
+
+
+/*user lifestyle*/
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    flex-direction: column;
+    background-color: transparent;
+}
+
+h1 {
+    font-family: Arial, sans-serif;
+    color: black;
+}
+
+form {
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: left;
+}
+
+label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: black;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type="submit"]:hover {
+    background-color: #63d369;
+    
+    
+}
+
+/*hasil*/
+
+.result-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color:transparent;
+}
+
+.h1h {
+    color: black;
+    font-family: Arial, sans-serif;
+}
+
+p {
+    font-size: 18px;
+    color: black;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    max-width: 600px;
+}
+
+.buttonh {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.buttonh a {
+    color: white;
+    text-decoration: none;
+}
+
+.buttonh:hover {
+    background-color: #63d369;
+}

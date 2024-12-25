@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Hasil Klasifikasi Gaya Hidup Anda:</h1><br>
-<p>{{ hasil_kesimpulan }}</p><br>
-<button><a href="/">Kembali</a></button>
+<div class="result-container">
+    <h1 class="h1h">Hasil Klasifikasi Gaya Hidup Anda:</h1>
+    <p>{{ hasil_kesimpulan }}</p>
+    <!-- <button class="buttonh"><a href="/">Kembali</a></button> -->
+    <button class="buttonh" onclick="window.location.href='/'">Kembali</button>
+</div>
+
 {% endblock %}

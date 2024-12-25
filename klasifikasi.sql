@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 21, 2024 at 12:12 PM
+-- Generation Time: Dec 25, 2024 at 02:26 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -42,11 +42,7 @@ CREATE TABLE `hasil` (
 --
 
 INSERT INTO `hasil` (`id_hasil`, `id_user`, `olahraga`, `tidur`, `stres`, `makanan`, `hidrasi`) VALUES
-(5, 5, 'Bagus', 'Bagus', 'Bagus', 'Bagus', 'Bagus'),
-(6, 6, 'Bagus', 'Bagus', 'Bagus', 'Buruk', 'Bagus'),
-(7, 7, 'Bagus', 'Kurang', 'Buruk', 'Buruk', 'Kurang'),
-(8, 8, 'Bagus', 'Bagus', 'Bagus', 'Bagus', 'Bagus'),
-(9, 9, 'Bagus', 'Bagus', 'Bagus', 'Bagus', 'Bagus');
+(15, 15, 'Bagus', 'Bagus', 'Bagus', 'Bagus', 'Bagus');
 
 -- --------------------------------------------------------
 
@@ -67,12 +63,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `nama_user`, `umur`, `berat_badan`, `tinggi_badan`) VALUES
-(1, 'test', 18, 51, 178),
-(5, 'zilong', 21, 60, 180),
-(6, 'agus', 20, 59, 174),
-(7, 'cj', 30, 70, 180),
-(8, 'bruno', 18, 58, 179),
-(9, 'alesio', 31, 70, 180);
+(15, 'zilong', 24, 68, 181);
 
 --
 -- Indexes for dumped tables
@@ -99,13 +90,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `hasil`
 --
 ALTER TABLE `hasil`
-  MODIFY `id_hasil` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_hasil` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables

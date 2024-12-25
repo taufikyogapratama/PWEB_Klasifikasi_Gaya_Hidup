@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Mohon isi nama dan password admin</h1>
-<form action="cek_validasi_admin" method="POST">
-    <label for="nama">Nama:</label><br>
-    <input type="nama" id="nama" name="nama" required><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" required><br>
-    <input type="submit" value="Masuk">
-</form>
+<button onclick="window.location.href='/'" style="margin-left: 30px; margin-top: 20px;" class="btn-kembali">Kembali</button>
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    
+    <div class="tabel">
+        <h1 class="h1v">Mohon isi nama dan password admin</h1>
+        <form action="cek_validasi_admin" method="POST">
+
+            <div style="margin-bottom: 15px;">
+                <label class="namav" for="nama" style="display: block;">Nama</label>
+                <input type="text" id="nama" name="nama" required style="width: 150%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label class="pav" for="password" style="display: block;">Password</label>
+                <input type="password" id="password" name="password" required style="width: 150%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+            </div>
+
+            <input type="submit" value="Masuk" style="width: 150%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            
+        </form>
+    </div>
+</div>
 {% endblock %}

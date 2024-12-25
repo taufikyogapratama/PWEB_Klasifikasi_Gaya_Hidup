@@ -1,40 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Data Klasifikasi Gaya Hidup</h1>
+<button onclick="window.location.href='/'" style="margin-left: 30px; margin-top: 20px;" class="btn-kembali">Kembali</button>
+<h1 class="text-center my-4" style="font-family: Arial, sans-serif; color: black !important;">Data Klasifikasi Gaya Hidup</h1>
 
-<div style="overflow-x:auto;">
-    <table border="1">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Umur</th>
-                <th>Berat Badan</th>
-                <th>Tinggi Badan</th>
-                <th>Olahraga</th>
-                <th>Tidur</th>
-                <th>Stres</th>
-                <th>Makanan</th>
-                <th>Hidrasi</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in data %}
-            <tr>
-                <td>{{ loop.index }}</td> <!-- Menampilkan nomor urut -->
-                <td>{{ row[0] }}</td> <!-- Nama -->
-                <td>{{ row[1] }}</td> <!-- Umur -->
-                <td>{{ row[2] }}</td> <!-- Berat Badan -->
-                <td>{{ row[3] }}</td> <!-- Tinggi Badan -->
-                <td>{{ row[4] }}</td> <!-- Olahraga -->
-                <td>{{ row[5] }}</td> <!-- Tidur -->
-                <td>{{ row[6] }}</td> <!-- Stres -->
-                <td>{{ row[7] }}</td> <!-- Makanan -->
-                <td>{{ row[8] }}</td> <!-- Hidrasi -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+<div class="container">
+    <div class="table-responsive">
+        {% if data %}
+        <table class="table table-custom table-hover table-bordered text-center">
+            <thead class="thead-light">
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Umur</th>
+                    <th>Berat Badan</th>
+                    <th>Tinggi Badan</th>
+                    <th>Olahraga</th>
+                    <th>Tidur</th>
+                    <th>Stres</th>
+                    <th>Makanan</th>
+                    <th>Hidrasi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
+                    <td>{{ row[8] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form action="{{ url_for('hapus_semua_data') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus semua data?')">
+            <button type="submit" class="btn-hapus">Hapus Data</button>
+        </form>
+        {% else %}
+        <h3 style="margin-top: 20px;">Tidak ada data.</h3>
+        {% endif %}
+    </div>
 </div>
+
 {% endblock %}
